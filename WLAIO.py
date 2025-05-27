@@ -125,7 +125,7 @@ class WordlistManagerGUI:
     def setup_window(self):
         """Initialize main window"""
         self.window = tk.Tk()
-        self.window.title("WLAIO")
+        self.window.title("WLAIO - All in One Wordlist Manager")
         self.window.minsize(self.WINDOW_MIN_WIDTH, self.WINDOW_MIN_HEIGHT)
         self.window.geometry("800x700")
     
