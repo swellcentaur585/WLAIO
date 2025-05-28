@@ -28,3 +28,5 @@ A GUI application for managing and generating wordlists.
 - This program is designed for generating and managing wordlists, and should not be used for malicious purposes.
 - Large wordlist generation can take a significant amount of time and system resources.
 - Very Early work in progress plan on adding a ton more features and make it look somewhat better.
+- Plan on adding CEWL like capabilities
+- Plan on adding the ability to run hashcat commands and have a zenmap like gui attached
