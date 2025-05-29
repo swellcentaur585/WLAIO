@@ -210,8 +210,20 @@ class WordlistManagerGUI:
         self.length_entry.pack(side=tk.LEFT, padx=5)
         self.length_entry.insert(0, "4")
         
-        ttk.Button(length_frame, text="🔢 Generate", command=self.generate_brute_force).pack(side=tk.LEFT, padx=10)
-        ttk.Button(length_frame, text="💾 Save to File", command=self.save_brute_force_to_file).pack(side=tk.LEFT, padx=5)
+        # Store button references for safe access
+        self.generate_brute_force_button = ttk.Button(
+            length_frame, 
+            text="🔢 Generate", 
+            command=self.generate_brute_force
+        )
+        self.generate_brute_force_button.pack(side=tk.LEFT, padx=10)
+        
+        self.save_brute_force_button = ttk.Button(
+            length_frame, 
+            text="💾 Save to File", 
+            command=self.save_brute_force_to_file
+        )
+        self.save_brute_force_button.pack(side=tk.LEFT, padx=5)
         
         # Progress bar
         self.brute_force_progress = ttk.Progressbar(length_frame, mode='determinate')
@@ -344,8 +356,9 @@ class WordlistManagerGUI:
                                              text="🚀 Combine Wordlists",
                                              command=self.generate_combined_wordlist)
         self.generate_combiner_btn.pack(side=tk.LEFT)
-        self.combiner_progress = ttk.Progressbar(action_frame, 
-                                               mode='indeterminate')
+        
+        # Use determinate progress bar for combiner
+        self.combiner_progress = ttk.Progressbar(action_frame, mode='determinate')
         self.combiner_progress.pack(side=tk.RIGHT, fill=tk.X, expand=True)
 
         # Results Display
@@ -421,7 +434,7 @@ class WordlistManagerGUI:
         
         # UI Setup
         self.generate_combiner_btn.config(state='disabled', text="Generating...")
-        self.combiner_progress.start()
+        self.combiner_progress['value'] = 0
         self.update_status("Combining wordlists...")
 
         def generation_thread():
@@ -484,7 +497,7 @@ class WordlistManagerGUI:
                     
                     # Update progress
                     processed += 1
-                    if processed % 100 == 0:
+                    if processed % 100 == 0 or processed == total_pairs:
                         progress = (processed / total_pairs) * 100
                         self.window.after(0, lambda: 
                             self.combiner_progress.config(value=progress))
@@ -526,9 +539,8 @@ class WordlistManagerGUI:
     def reset_combiner_ui(self):
         """Reset combiner UI elements"""
         self.generate_combiner_btn.config(state='normal', text="🚀 Combine Wordlists")
-        self.combiner_progress.stop()
-        self.combiner_progress.config(mode='determinate', value=0)
-        
+        self.combiner_progress.config(value=0)
+    
     def setup_menu(self):
         """Create menu bar"""
         menubar = tk.Menu(self.window)
@@ -644,26 +656,28 @@ class WordlistManagerGUI:
             return
         
         # Disable generate button during generation
-        self.window.children['!frame'].children['!frame'].children['!labelframe2'].children['!button'].config(state='disabled')
+        self.generate_brute_force_button.config(state='disabled')
         self.brute_force_progress['value'] = 0
         
         try:
             def generate_thread():
                 try:
+                    # FIXED: Added the missing parenthesis at the end of this call
                     wordlist = WordlistGenerator.generate_brute_force(
                         charsets, 
                         length,
                         progress_callback=lambda p: self.window.after(0, lambda: self.brute_force_progress.config(value=p))
+                    )
                     self.window.after(0, lambda: self.display_brute_force_results(wordlist))
                 except Exception as e:
                     self.window.after(0, lambda: messagebox.showerror("Error", str(e)))
                 finally:
-                    self.window.after(0, lambda: self.window.children['!frame'].children['!frame'].children['!labelframe2'].children['!button'].config(state='normal'))
+                    self.window.after(0, lambda: self.generate_brute_force_button.config(state='normal'))
             
             threading.Thread(target=generate_thread, daemon=True).start()
         except Exception as e:
             messagebox.showerror("Error", str(e))
-            self.window.children['!frame'].children['!frame'].children['!labelframe2'].children['!button'].config(state='normal')
+            self.generate_brute_force_button.config(state='normal')
     
     def display_brute_force_results(self, wordlist):
         """Display brute force results"""
@@ -699,7 +713,7 @@ class WordlistManagerGUI:
             return
         
         # Disable button during save
-        self.window.children['!frame'].children['!frame'].children['!labelframe2'].children['!button2'].config(state='disabled')
+        self.save_brute_force_button.config(state='disabled')
         self.brute_force_progress['value'] = 0
         
         def save_thread():
@@ -715,7 +729,7 @@ class WordlistManagerGUI:
             except Exception as e:
                 self.window.after(0, lambda: messagebox.showerror("Error", str(e)))
             finally:
-                self.window.after(0, lambda: self.window.children['!frame'].children['!frame'].children['!labelframe2'].children['!button2'].config(state='normal'))
+                self.window.after(0, lambda: self.save_brute_force_button.config(state='normal'))
         
         threading.Thread(target=save_thread, daemon=True).start()
     
