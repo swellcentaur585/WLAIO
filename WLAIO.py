@@ -214,7 +214,7 @@ class HashcatManager:
                 '--potfile-disable',  # Don't use potfile
                 '-o', 'cracked.txt',  # Output file
                 '--status',  # Enable status updates
-                '--status-timer=1',  # Update every second
+                '--status-timer=60',  # Update every minute
                 hash_file,
                 wordlist_file
             ]
