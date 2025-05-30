@@ -20,5 +20,5 @@ WLAIO (WordList AIO) is a comprehensive wordlist management tool designed for pe
 ### Steps
 1. Clone repository:
 ```bash
-git clone https://github.com/yourusername/WLAIO.git
+git clone https://github.com/swellcentaur585/WLAIO.git
 cd WLAIO
