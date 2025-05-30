@@ -1,32 +1,24 @@
-# Wordlist Manager
-A GUI application for managing and generating wordlists.
+# WLAIO - Advanced Wordlist Manager
+
+WLAIO (WordList AIO) is a comprehensive wordlist management tool designed for penetration testers, security researchers, and password cracking enthusiasts. It provides a graphical interface for creating, modifying, and utilizing wordlists with integrated Hashcat functionality.
 
 ## Features
-- Load and save wordlists from files
-- Generate bruteforce wordlists based on character sets and lengths
-- Apply hashcat-like rules to wordlists (e.g. append numbers, prepend special characters, leet speak)
-- Combine multiple wordlists into one
-- Estimate time to complete for large wordlist generation
 
-## Requirements
-- Python 3.x
-- tkinter library (included with Python)
+- **Wordlist Generation**: Create custom wordlists using brute-force methods
+- **Word Transformation**: Apply leet speak, case variations, and special character rules
+- **Wordlist Combination**: Merge two wordlists with transformation options
+- **Web Scraping**: Extract words from websites (CeWL-like functionality)
+- **Hashcat Integration**: Run attacks directly from the GUI with real-time monitoring
+- **File Management**: Load, save, and edit wordlists with built-in tools
 
 ## Installation
-1. Clone this repository or download the source code
-2. Run the program using `python wordlist_manager.py`
 
-## Usage
-1. Launch the program and select a tab to perform an action:
-    * Load/Save: Load a wordlist from a file or save the current wordlist to a file
-    * Bruteforce Generator: Generate a wordlist based on character sets and lengths
-    * Wordlist Manipulation: Apply hashcat-like rules to a wordlist
-    * Wordlist Combiner: Combine multiple wordlists into one
-2. Follow the prompts and instructions in each tab to complete the desired action
+### Prerequisites
+- Python 3.6+
+- Hashcat (system installation required)
 
-## Notes
-- This program is designed for generating and managing wordlists, and should not be used for malicious purposes.
-- Large wordlist generation can take a significant amount of time and system resources.
-- Very Early work in progress plan on adding a ton more features and make it look somewhat better.
-- Plan on adding CEWL like capabilities
-- Plan on adding the ability to run hashcat commands and have a zenmap like gui attached
+### Steps
+1. Clone repository:
+```bash
+git clone https://github.com/yourusername/WLAIO.git
+cd WLAIO
